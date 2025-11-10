@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Converter Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header class="topbar">
+      <h1>Smart Converter ⚡</h1>
+      <div class="controls">
+        <label class="theme-switch" title="Toggle theme">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="tools" role="tablist" aria-label="Converters">
+        <button class="tool active" data-target="file-transfer" role="tab" aria-selected="true">💾 File Transfer</button>
+        <button class="tool" data-target="time" role="tab">⏰ Time</button>
+        <button class="tool" data-target="distance" role="tab">📏 Distance</button>
+        <button class="tool" data-target="temperature" role="tab">🌡️ Temperature</button>
+        <button class="tool" data-target="weight" role="tab">⚖️ Weight</button>
+        <button class="tool" data-target="length" role="tab">📐 Length</button>
+        <button class="tool" data-target="speed" role="tab">🚗 Speed</button>
+      </nav>
+
+      <main class="card">
+        <!-- FILE TRANSFER -->
+        <section id="file-transfer" class="converter active" role="tabpanel">
+          <h2>File Transfer Estimator</h2>
+
+          <div class="row">
+            <div class="col">
+              <label>File size</label>
+              <input id="file-size" type="number" placeholder="e.g. 10" min="0" step="any" />
+            </div>
+            <div class="col">
+              <label>Unit</label>
+              <select id="file-size-unit">
+                <option value="MB">MB</option>
+                <option value="GB">GB</option>
+                <option value="TB">TB</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label>Transfer speed</label>
+              <input id="transfer-speed" type="number" placeholder="e.g. 50" min="0" step="any" />
+            </div>
+            <div class="col">
+              <label>Speed unit</label>
+              <select id="speed-unit">
+                <option value="Mbps">Mbps</option>
+                <option value="MBps">MBps</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="file-convert" class="primary">Estimate Time</button>
+            <button id="file-copy" class="ghost" title="Copy result">Copy</button>
+          </div>
+
+          <div class="progress-container" aria-hidden="true">
+            <div id="progress-bar" class="progress-bar"></div>
+          </div>
+
+          <div id="file-result" class="result" aria-live="polite"></div>
+        </section>
+
+        <!-- TIME -->
+        <section id="time" class="converter" role="tabpanel" hidden>
+          <h2>Time Zone Converter</h2>
+
+          <label>Local date & time</label>
+          <input id="dt-input" type="datetime-local" />
+
+          <div class="row">
+            <div class="col">
+              <label>From timezone</label>
+              <select id="tz-from">
+                <option value="UTC">UTC</option>
+                <option value="Asia/Kolkata">Asia/Kolkata</option>
+                <option value="Europe/London">Europe/London</option>
+                <option value="America/New_York">America/New_York</option>
+                <option value="Asia/Tokyo">Asia/Tokyo</option>
+                <option value="Australia/Sydney">Australia/Sydney</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>To timezone</label>
+              <select id="tz-to">
+                <option value="Asia/Kolkata">Asia/Kolkata</option>
+                <option value="UTC">UTC</option>
+                <option value="Europe/London">Europe/London</option>
+                <option value="America/New_York">America/New_York</option>
+                <option value="Asia/Tokyo">Asia/Tokyo</option>
+                <option value="Australia/Sydney">Australia/Sydney</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="time-convert" class="primary">Convert</button>
+            <button id="time-copy" class="ghost">Copy</button>
+          </div>
+
+          <div id="time-result" class="result" aria-live="polite"></div>
+          <small class="muted">Interpretation: the selected local datetime is treated as wall-clock in the "From" timezone.</small>
+        </section>
+
+        <!-- DISTANCE -->
+        <section id="distance" class="converter" role="tabpanel" hidden>
+          <h2>Distance</h2>
+          <div class="row">
+            <div class="col">
+              <label>Value</label>
+              <input id="dist-input" type="number" value="1" min="0" step="any" />
+            </div>
+            <div class="col">
+              <label>From</label>
+              <select id="dist-from">
+                <option value="km">km</option>
+                <option value="mi">mi</option>
+              </select>
+              <label>To</label>
+              <select id="dist-to">
+                <option value="mi">mi</option>
+                <option value="km">km</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="dist-convert" class="primary">Convert</button>
+            <button id="dist-copy" class="ghost">Copy</button>
+          </div>
+          <div id="dist-result" class="result"></div>
+        </section>
+
+        <!-- TEMPERATURE -->
+        <section id="temperature" class="converter" role="tabpanel" hidden>
+          <h2>Temperature</h2>
+          <div class="row">
+            <div class="col">
+              <label>Value</label>
+              <input id="temp-input" type="number" value="0" step="any" />
+            </div>
+            <div class="col">
+              <label>From</label>
+              <select id="temp-from">
+                <option value="C">°C</option>
+                <option value="F">°F</option>
+                <option value="K">K</option>
+              </select>
+              <label>To</label>
+              <select id="temp-to">
+                <option value="F">°F</option>
+                <option value="C">°C</option>
+                <option value="K">K</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="temp-convert" class="primary">Convert</button>
+            <button id="temp-copy" class="ghost">Copy</button>
+          </div>
+          <div id="temp-result" class="result"></div>
+        </section>
+
+        <!-- WEIGHT -->
+        <section id="weight" class="converter" role="tabpanel" hidden>
+          <h2>Weight</h2>
+          <div class="row">
+            <div class="col">
+              <label>Value</label>
+              <input id="weight-input" type="number" value="1" step="any" />
+            </div>
+            <div class="col">
+              <label>From</label>
+              <select id="weight-from">
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+              <label>To</label>
+              <select id="weight-to">
+                <option value="lb">lb</option>
+                <option value="kg">kg</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="weight-convert" class="primary">Convert</button>
+            <button id="weight-copy" class="ghost">Copy</button>
+          </div>
+          <div id="weight-result" class="result"></div>
+        </section>
+
+        <!-- LENGTH -->
+        <section id="length" class="converter" role="tabpanel" hidden>
+          <h2>Length</h2>
+          <div class="row">
+            <div class="col">
+              <label>Value</label>
+              <input id="length-input" type="number" value="1" step="any" />
+            </div>
+            <div class="col">
+              <label>From</label>
+              <select id="length-from">
+                <option value="m">m</option>
+                <option value="ft">ft</option>
+              </select>
+              <label>To</label>
+              <select id="length-to">
+                <option value="ft">ft</option>
+                <option value="m">m</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="length-convert" class="primary">Convert</button>
+            <button id="length-copy" class="ghost">Copy</button>
+          </div>
+          <div id="length-result" class="result"></div>
+        </section>
+
+        <!-- SPEED -->
+        <section id="speed" class="converter" role="tabpanel" hidden>
+          <h2>Speed</h2>
+          <div class="row">
+            <div class="col">
+              <label>Value</label>
+              <input id="speed-input" type="number" value="1" step="any" />
+            </div>
+            <div class="col">
+              <label>From</label>
+              <select id="speed-from">
+                <option value="kmh">km/h</option>
+                <option value="mph">mph</option>
+              </select>
+              <label>To</label>
+              <select id="speed-to">
+                <option value="mph">mph</option>
+                <option value="kmh">km/h</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="speed-convert" class="primary">Convert</button>
+            <button id="speed-copy" class="ghost">Copy</button>
+          </div>
+          <div id="speed-result" class="result"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
